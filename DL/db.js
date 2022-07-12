@@ -1,10 +1,12 @@
 const mongoose = require("mongoose");
+require("dotenv").config()
 
-const MONGO_URL = "";
 
+const mongo_url = process.env.MONGO_URL
+// const mongo_url = 'mongodb+srv://michalsagi:Ms6512864@cluster0.03bbe.mongodb.net/playlist?retryWrites=true&w=majority';
 exports.connect = async () => {
   try {
-    await mongoose.connect(MONGO_URL, { useNewUrlParser: true }, (err) => {
+    await mongoose.connect(mongo_url, { useNewUrlParser: true }, (err) => {
       if (err) {
         console.log("error:", err);
         return false;
