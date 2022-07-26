@@ -2,16 +2,18 @@ const { validateToken } = require("../BL/jwt")
 const userController = require('../DL/controllers/userController');
 
 
-async function auth(req, res, next) {
-    const token = req.headers.authorization
+const auth = async (req, res, next) => {
     try {
-        const decode = validateToken(token)
-        const user = await userController.readOne({ _id: decode.id })
-        if (!user) throw ({ code: 503, message: "not auth" })
-        next()
-
+        const authHeader = req.headers.authorization;
+        if (!authHeader) throw { code: 503, message: "No authentication is sent" };
+        const token = authHeader.split(" ")[1];
+        const decode = validateToken(token);
+        const user = await userController.readOne({ _id: decode.id });
+        if (!user) throw { code: 503, message: "not auth" };
+        req.user = user;
+        next();
     } catch (error) {
-        res.status(503).send({ message: "not auth" })
+        res.status(503).send(error.message);
     }
-}
+};
 module.exports = auth

@@ -47,6 +47,7 @@ const addPlaylist = async (playlist) => {
     }
     const user = await userController.readOne({ _id: playlist.userId });
     if (!user) { throw ({ code: 400, message: "Error - user not found" }) };
+
     return await playlistController.create(playlist)
 };
 

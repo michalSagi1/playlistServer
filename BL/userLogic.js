@@ -47,6 +47,9 @@ const playlistByUser = async (userId) => {
   const user = await userController.readOne({ _id: userId })
   if (!user) throw ({ code: 400, message: "Error - user not found" })
 
-  return await playlistController.read({ userId }, "songs name",);
+  return await playlistController.read({ userId, isActive: true }, "songs name",);
 }
-module.exports = { login, getAllUsers, register, playlistByUser };
+const getUser = async (user) => {
+  return { id: user._id, email: user.email };
+};
+module.exports = { login, getAllUsers, register, playlistByUser, getUser };

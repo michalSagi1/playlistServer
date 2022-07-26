@@ -3,6 +3,13 @@ const router = express.Router();
 const userLogic = require("../BL/userLogic");
 const auth = require("../middleware/auth")
 
+router.get("/checkToken", auth, async (req, res) => {
+  try {
+    res.send(await userLogic.getUser(req.user));
+  } catch (error) {
+    res.status(error.code || 400).send({ message: error.message });
+  }
+});
 router.get("/", (req, res) => {
   res.send("users");
 });
@@ -62,4 +69,5 @@ router.get("/:userId", async (req, res) => {
     res.status(500).send({ message: "something wrong :( ..." })
   }
 })
+
 module.exports = router;
