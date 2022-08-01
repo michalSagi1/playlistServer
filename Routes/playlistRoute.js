@@ -19,7 +19,7 @@ router.get("/firstPlaylist/:idUser", async (req, res) => {
 router.get("/:idPlaylist", async (req, res) => {
     try {
         // console.log(req.params.idPlaylist);
-        const Playlist = await playlistLogic.getPlaylist(req.params.idPlaylist)
+        const Playlist = await playlistLogic.playlist(req.params.idPlaylist)
         // console.log(Playlist);
         res.send(Playlist)
     }
@@ -53,5 +53,34 @@ router.put("/addSong", async (req, res) => {
         res.status(500).send({ message: error.message || "something wrong :( ..." })
     }
 })
+router.get("/songsList/:idPlaylist", async (req, res) => {
+    try {
+        res.send(await playlistLogic.getPlaylist(req.params.idPlaylist))
+    } catch (error) {
+        console.log("error");
+        res.status(500).send({ message: error.message || "something wrong :( ..." })
 
+    }
+})
+router.put("/deletePlaylist/:idPlaylist", async (req, res) => {
+    try {
+        res.send(await playlistLogic.delplaylist(req.params.idPlaylist))
+    }
+    catch (error) {
+        res.status(error.code || 400).send({ message: error.message });
+    }
+})
+
+
+router.post("/delSong", async (req, res) => {
+    try {
+        console.log("router");
+        const { idPlaylist, idSong } = req.body;
+        res.send(await playlistLogic.delSong(idPlaylist, idSong));
+    }
+    catch (error) {
+        console.log(error.message);
+        res.status(500).send({ message: error.message || "something wrong :( ..." })
+    }
+});
 module.exports = router;

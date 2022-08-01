@@ -12,8 +12,8 @@ async function readOne(filter, proj) {
 async function update(filter, newData) {
     return await playlistModel.findOneAndUpdate(filter, newData, { new: true });
 }
-async function deleteOne(filter) {
-    return await updateOne(filter, { isActive: false });
+async function deletePlaylist(filter) {
+    return await update(filter, { isActive: false });
 }
 
-module.exports = { create, read, readOne, update, deleteOne };
+module.exports = { create, read, readOne, update, deletePlaylist };
