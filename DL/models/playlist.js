@@ -15,7 +15,10 @@ const playlistSchema = new mongoose.Schema({
     playlistDate: {
         type: Date, default: Date.now
     },
-    songs: [{ type: String }],
+    // songs: [{ type: String }],
+
+    songs: [{ songId: { type: String }, songTitle: { type: String }, img: { type: String } }],
+
 
     isActive: {
         type: Boolean,

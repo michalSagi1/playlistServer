@@ -9,40 +9,53 @@ const playlist = async (id) => {
 }
 
 const getPlaylist = async (id) => {
-
     const playlist = await playlistController.readOne({ _id: id });
-    const songs = await Promise.all(playlist.songs.map(async (song) => {
-        const res = await axios.get(`https://simple-youtube-search.p.rapidapi.com/video?search=https://youtu.be/${song}`, {
-            headers: {
-                "X-RapidAPI-Key": "ca14220a3cmsh07cc4af9be28ef9p1f0706jsn77a3f8201075",
-                "X-RapidAPI-Host": "simple-youtube-search.p.rapidapi.com",
-            },
-        })
-        // try {
-        //     console.log(res.data.result.title);
-        //     console.log(res.data.result.thumbnail.url);
-
-        // }
-        // catch (error) {
-        //     console.log("blabla", song);
-        // }
-
-        return (
-
-            {
-                id: song,
-                img: res.data.result.thumbnail.url,
-                title: res.data.result.title
-            }
-        )
-    }))
-
+    const songs = await playlist.songs.map((song) => {
+        return {
+            id: song.songId,
+            title: song.songTitle,
+            img: song.img
+        }
+    })
     return songs
-};
+}
+
+
+// const getPlaylist = async (id) => {
+
+//     const playlist = await playlistController.readOne({ _id: id });
+//     const songs = await Promise.all(playlist.songs.map(async (song) => {
+//         const res = await axios.get(`https://simple-youtube-search.p.rapidapi.com/video?search=https://youtu.be/${song}`, {
+//             headers: {
+//                 "X-RapidAPI-Key": "ca14220a3cmsh07cc4af9be28ef9p1f0706jsn77a3f8201075",
+//                 "X-RapidAPI-Host": "simple-youtube-search.p.rapidapi.com",
+//             },
+//         })
+//         // try {
+//         //     console.log(res.data.result.title);
+//         //     console.log(res.data.result.thumbnail.url);
+
+//         // }
+//         // catch (error) {
+//         //     console.log("blabla", song);
+//         // }
+
+//         return (
+
+//             {
+//                 id: song,
+//                 img: res.data.result.thumbnail.url,
+//                 title: res.data.result.title
+//             }
+//         )
+//     }))
+
+//     return songs
+// };
 
 const firstPlaylist = async (userId) => {
     const playlist = await playlistController.read({ userId, isActive: true });
-    return { playlist: playlist[0]._id, song: playlist[0].songs[0] }
+    return { playlist: playlist[0]._id, song: playlist[0].songs[0].songId }
 }
 const songList = async (playlist) => {
     const songs = await playlistController.read({ _id: playlist })
@@ -73,7 +86,7 @@ const addPlaylist = async (playlist) => {
     return await playlistController.create(playlist)
 };
 
-const addSong = async ({ songId, playlistId }) => {
+const addSong = async ({ songId, playlistId, songTitle, img }) => {
     if (!songId) {
         ({ code: 400, message: "Error -song not found" })
     }
@@ -91,7 +104,7 @@ const addSong = async ({ songId, playlistId }) => {
 
         }
     }
-    return await playlistController.update({ _id: playlistId }, { songs: [...playlist.songs, songId] })
+    return await playlistController.update({ _id: playlistId }, { songs: [...playlist.songs, { songId, songTitle, img }] })
 
 }
 

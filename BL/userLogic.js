@@ -18,7 +18,7 @@ const login = async (email, password) => {
   console.log("yes");
 
   console.log(user, hashedPassword);
-  console.log("bla bla" + user.hashedPassword);
+  // console.log("bla bla" + user.hashedPassword);
   if (hashedPassword !== user.hashedPassword) throw ({ code: 503, message: "not auth" })
   const userIn = { user, token: createToken(user._id) }
   console.log(userIn)

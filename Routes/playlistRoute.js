@@ -32,8 +32,8 @@ router.get("/:idPlaylist", async (req, res) => {
 router.post("/addPlaylist", async (req, res) => {
     try {
         console.log("router");
-        const { name, userId, songs } = req.body;
-        const playlist = { name, userId, songs }
+        const { name, userId, songs, songTitle, img } = req.body;
+        const playlist = { name, userId, songs: [{ songId: songs, songTitle, img }] }
         res.send(await playlistLogic.addPlaylist(playlist));
     }
     catch (error) {
@@ -44,8 +44,8 @@ router.post("/addPlaylist", async (req, res) => {
 
 router.put("/addSong", async (req, res) => {
     try {
-        const { songId, playlistId } = req.body;
-        const addSong = { songId, playlistId }
+        const { songId, playlistId, songTitle, img } = req.body;
+        const addSong = { songId, playlistId, songTitle, img }
         res.send(await playlistLogic.addSong(addSong));
     }
     catch (error) {
