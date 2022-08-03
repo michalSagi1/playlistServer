@@ -99,6 +99,14 @@ const delSong = async (idPlaylist, idSong) => {
         { songs: playlist.songs }
     );
 };
+
+const renamePlaylist = async (idPlaylist, newName) => {
+    const playlist = await playlistController.readOne({ _id: idPlaylist });
+    return await playlistController.update(
+        { _id: idPlaylist },
+        { name: newName }
+    );
+}
 module.exports = {
     allPlaylists,
     getPlaylist,
@@ -108,4 +116,5 @@ module.exports = {
     delPlaylist,
     playlist,
     delSong,
+    renamePlaylist
 };

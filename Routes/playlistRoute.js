@@ -119,4 +119,13 @@ router.post("/delSong", async (req, res) => {
             .send({ message: error.message || "something wrong :( ..." });
     }
 });
+
+router.post("/renamePlaylist", async (req, res) => {
+    try {
+        const { idPlaylist, newName } = req.body;
+        res.send(await playlistLogic.renamePlaylist(idPlaylist, newName));
+    } catch (error) {
+        res.status(error.code || 400).send({ message: error.message });
+    }
+});
 module.exports = router;
