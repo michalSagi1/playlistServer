@@ -41,7 +41,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.get("/allUsers", async (req, res) => {
+router.get("/allUsers", auth, async (req, res) => {
   try {
     const users = await userLogic.getAllUsers();
     res.send(users);
@@ -51,7 +51,7 @@ router.get("/allUsers", async (req, res) => {
   }
 });
 
-router.get("/:userId", async (req, res) => {
+router.get("/:userId", auth, async (req, res) => {
   try {
     const { userId } = req.params;
     res.send(await userLogic.playlistByUser(userId));
