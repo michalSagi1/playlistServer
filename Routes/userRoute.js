@@ -41,13 +41,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// router.post("/addUser", async (req, res) => {
-//   const { name, email, password } = req.body;
-//   const newUser = { name, email, password }
-//   const user = await userLogic.addUser(newUser);
-//   res.send(user);
-// });
-
 router.get("/allUsers", async (req, res) => {
   try {
     const users = await userLogic.getAllUsers();
