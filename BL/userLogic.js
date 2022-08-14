@@ -27,13 +27,13 @@ const login = async (email, password) => {
 
 const register = async (user) => {
   if (!user.email) {
-    throw { code: 400, message: "Error - email" };
+    throw { code: 400, message: "Please enter name, email or password" };
   }
   if (!user.name) {
-    throw { code: 400, message: "Error - name" };
+    throw { code: 400, message: "Please enter name, email or password" };
   }
   if (!user.password) {
-    throw { code: 400, message: "Error - password" };
+    throw { code: 400, message: "Please enter name, email or password" };
   }
   const _user = await userController.readOne({ email: user.email });
   if (_user) {
